@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
 
-    <script src="http://d3js.org/d3.v4.min.js"></script>
+    <script src="http://d3js.org/d3.v4.js"></script>
     
   </head>
   <body>
@@ -57,20 +57,17 @@
         </div>
       </div>
 
-      <svg width="960" height="500"></svg>
+      <div class="rows">
+        <svg width="960" height="500"></svg>
+        <div class="range-slider">
+          <input class="range-slider__range" type="range" value="200" min="20" max="400" step="20">
+          <span class="range-slider__value">0</span>
+        </div>
+
+      </div>
       
     </div>
     
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-    <script>
-      (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-      function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-      e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-      e.src='https://www.google-analytics.com/analytics.js';
-      r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-      ga('create','UA-XXXXX-X');ga('send','pageview');
-    </script>
-
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
     <!-- endbower -->

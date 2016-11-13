@@ -1,29 +1,22 @@
 // var accidents = require('./accidents.json');
-var margin = { top: 70, right: 50, bottom: 30, left: 50 },
+var margin = { top: 100, right: 50, bottom: 30, left: 50 },
     width = 980 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
 var ticks = 150;
+// var initial = true;
 var activities = [
-  ["2016-01-01T00:00:00Z", "Accident Policy now available"], 
-  ["2016-01-15T00:00:00Z", "New Product Offering Splash"], 
-  ["2016-02-25T00:00:00Z", "10% Discount on Premiums"], 
-  ["2016-02-29T00:00:00Z", "10% Discount on Premiums"], 
-  ["2016-06-01T00:00:00Z", "Free spouse coverage for 1 year"], 
-  ["2016-06-15T00:00:00Z", "Free spouse coverage for 1 year"], 
-  ["2016-06-30T00:00:00Z", "Free Financial Consulting"]];
+    ["2016-01-01T00:00:00Z", "Accident Policy now available"],
+    ["2016-01-15T00:00:00Z", "New Product Offering Splash"],
+    ["2016-02-25T00:00:00Z", ""],
+    ["2016-02-29T00:00:00Z", "10% Discount on Premiums"],
+    ["2016-06-01T00:00:00Z", "Free Spouse Coverage for 1 year"],
+    ["2016-06-15T00:00:00Z", "Free Spouse Coverage for 1 year"],
+    ["2016-06-30T00:00:00Z", "Free Financial Consulting"]
+];
 
-var x = d3.scaleTime()
-    .range([0, width])
-    .domain([1420088400000, 1477886400000]);
-    // .domain([d3.min(data, function(d) {
-    //     return d.getTime() }), d3.max(data, function(d) {
-    //     return d.getTime() })]);
-var y = d3.scaleLinear()
-    .domain([0, 583])
-    .range([height, 0]);
-    // .domain([0, d3.max(lineData, function(d) {
-    //     return d.count; })])
+var x, y;
+
 
 var svg = d3.select("svg")
     .attr("width", width + margin.left + margin.right)
@@ -31,11 +24,11 @@ var svg = d3.select("svg")
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-// g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 var parseTime = d3.timeParse("%Y-%m-%dT%H:%M:%SZ"),
     bisectDate = d3.bisector(function(d) {
-        return d.time; }).left;
+        return d.time;
+    }).left;
 
 
 var div = d3.select("body").append("div")
@@ -54,14 +47,18 @@ d3.queue()
     .defer(d3.json, 'scripts/AllAllAll.json')
     .await(jsonHandler);
 
-function jsonHandler(error, data, Premium) {
+
+function jsonHandler(error, data) {
     if (error)
         throw error;
 
     data = data.map(function(d) {
         return parseTime(d);
     })
-    
+
+    x = d3.scaleTime()
+        .range([0, width])
+        .domain(d3.extent(data, function(d) { return d; }));
 
     var bins = d3.histogram()
         .domain(x.domain())
@@ -80,30 +77,71 @@ function jsonHandler(error, data, Premium) {
         }
     })
 
+
+    y = d3.scaleLinear()
+        .range([height, 0])
+        .domain([0, d3.max(lineData, function(d) {
+            return d.count; 
+          })]);
+
     var line = d3.line()
         .x(function(d) {
-            return x(d.time); })
+            return x(d.time);
+        })
         .y(function(d) {
-            return y(d.count); });
+            return y(d.count);
+        });
+
 
     svg.append("path")
         .datum(lineData)
         .attr("class", "line")
+        .attr("id", "line")
         .attr("d", line);
+
+    if (ticks > 180) {
+        d3.select("#line").style('stroke-width', '2');
+    }
+    else {
+      d3.select("#line").style('stroke-width', '3');
+    }
+
+    // if (!initial) {
+    //     return;
+    // }
+
+    // initial = false;
+
+    // text label for the y axis
+    svg.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 0 - margin.left)
+        .attr("x", 0 - (height / 2))
+        .attr("dy", "1em")
+        .style("text-anchor", "middle")
+        .text("Accident Policy Sales");
 
     svg.append("g")
         .attr("class", "axis axis--y")
         .call(d3.axisLeft(y))
         .append("text")
         .attr("fill", "#000")
-        // .attr("transform", "rotate(-90)")
         .attr("y", 6)
-        .attr("dy", "0.71em");
+        .attr("dy", "0.71em")
+        .attr("id", "yAxis");
+
+    svg.append("text")
+        .attr("transform",
+            "translate(" + (width / 2) + " ," +
+            (height + margin.top - 40) + ")")
+        .style("text-anchor", "middle")
+        .text("Date");
 
     svg.append("g")
         .attr("class", "axis axis--x")
         .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(x));
+        .call(d3.axisBottom(x))
+        .attr("id", "xAxis");
 
     svg.append("rect")
         .attr("class", "overlay")
@@ -123,34 +161,32 @@ function jsonHandler(error, data, Premium) {
         })
         .on("mousemove", mousemove);
 
-      var i = 0;
-      activities.forEach(function(date) {
+    var i = 0;
+    activities.forEach(function(date) {
         svg.append("line")
-          .attr("class", "divided")
-          .attr("x1", x(parseTime(date[0]).getTime()))  
-          .attr("y1", 0)
-          .attr("x2", x(parseTime(date[0]).getTime()))  
-          .attr("y2", height)
-          .style("stroke-width", 1)
-          .style("stroke-dasharray", ("3, 5"))
-          .style("stroke", "#989898")
-          .style("fill", "none")
-
-        // svg.append("text")
-        //   .style("font-size", "12")
-        //   .attr("y", i)
-        //   .attr("transform", "translate(" + x(parseTime(date[0]).getTime()) + "," + y(0) + ")")
-        //   .attr("dy", "0.71em")
-        //   .attr("text-anchor", "start")
-        //   .text(date[1]);
+            .attr("class", "divided")
+            .attr("x1", x(parseTime(date[0]).getTime()))
+            .attr("y1", 0)
+            .attr("x2", x(parseTime(date[0]).getTime()))
+            .attr("y2", height)
+            .style("stroke-width", 1)
+            .style("stroke-dasharray", ("3, 5"))
+            .style("stroke", "#989898")
+            .style("fill", "none")
         
-        if (i === 0)
-          i = height;
-        else 
-          i = 0;
 
-      })
-     
+        svg.append("text")
+            .attr("class", "divider_label")
+            .style("font-size", 12)
+            // .style("letter-spacing", 1)
+            // .style("font-weight", 500)
+            .attr("transform", "translate("+ x(parseTime(date[0]).getTime()) +", "+i +"), rotate(-35)")
+            .text(date[1]);
+
+        i += 5;
+
+    })
+
     function mousemove() {
         var x0 = x.invert(d3.mouse(this)[0]),
             i = bisectDate(lineData, x0, 1),
@@ -166,88 +202,135 @@ function jsonHandler(error, data, Premium) {
             .style("top", (y(d.count)) + "px");
     }
 
-    // handleFile('scripts/AllAllFINCON.json', 'line2');
-    // handleFile('scripts/AllAllFREESPOUSE.json', 'line3');
-    // handleFile('scripts/AllAllACCOFF10.json', 'line4');
 }
 
 
 function handleFile(filename, lineName) {
     d3.select("#test").remove();
 
-    if ( (insurance_plan + insurance_coverage + promo_codes) === 'AllAllAll')
-      return;
+    if ((insurance_plan + insurance_coverage + promo_codes) === 'AllAllAll')
+        return;
 
 
     d3.json(filename, function(err, data) {
         if (err)
-          throw err;
+            throw err;
 
-      data = data.map(function(d) {
-        return parseTime(d);
-      })
+        data = data.map(function(d) {
+            return parseTime(d);
+        })
 
-      var bins = d3.histogram()
-          .domain(x.domain())
-          .thresholds(x.ticks(ticks))
-          (data);
+        var bins = d3.histogram()
+            .domain(x.domain())
+            .thresholds(x.ticks(ticks))
+            (data);
 
-      var lineData = bins.map(function(bin) {
-          return {
-              count: bin.length,
-              time: bin.reduce(function(a, b) {
-                  var val = (a.getTime() + b.getTime()) / 2;
-                  var copy = new Date();
-                  copy.setTime(val);
-                  return copy;
-              })
-          }
-      })
+        var lineData = bins.filter(function(bin) {
+          return bin.length > 0;
+        }).map(function(bin) {
+            return {
+                count: bin.length,
+                time: bin.reduce(function(a, b) {
+                    var val = (a.getTime() + b.getTime()) / 2;
+                    var copy = new Date();
+                    copy.setTime(val);
+                    return copy;
+                })
+            }
+        })
 
-      var line = d3.line()
-          .x(function(d) {
-              return x(d.time); })
-          .y(function(d) {
-              return y(d.count); });
+        var line = d3.line()
+            .x(function(d) {
+                return x(d.time);
+            })
+            .y(function(d) {
+                return y(d.count);
+            });
 
-      svg.append("path")
-          .datum(lineData)
-          .attr("class", lineName)
-          .attr("d", line)
-          .attr("id", "test");
+        svg.append("path")
+            .datum(lineData)
+            .attr("class", lineName)
+            .attr("d", line)
+            .attr("id", "test");
+
+        if (ticks > 180) {
+            d3.select("#test").style('stroke-width', '2');
+        }
+        else {
+          d3.select("#test").style('stroke-width', '3');
+        }
 
     })
-    
+
 }
 
 
 var insurance_plan = "All";
 var insurance_coverage = "All";
 var promo_codes = "All";
+var secondary_color = 'line2';
 
 $('#plan > .button').on('click', function(e) {
-  $('#plan > #' + insurance_plan).css('opacity', '0.3');
-  insurance_plan = $(this).attr('id');
-  $('#plan > #' + insurance_plan).css('opacity', '1');
-  
-  handleFile('scripts/' + insurance_plan + insurance_coverage + promo_codes + '.json', 'line2');
+    $('#plan > #' + insurance_plan).css('opacity', '0.3');
+    insurance_plan = $(this).attr('id');
+    $('#plan > #' + insurance_plan).css('opacity', '1');
+
+    secondary_color = 'line2';
+    handleFile('scripts/' + insurance_plan + insurance_coverage + promo_codes + '.json', secondary_color);
 })
 
 $('#coverage > .button').on('click', function() {
-  $('#coverage > #' + insurance_coverage).css('opacity', '0.3');
-  insurance_coverage = $(this).attr('id');
-  $('#coverage > #' + insurance_coverage).css('opacity', '1');
-  handleFile('scripts/' + insurance_plan + insurance_coverage + promo_codes + '.json', 'line3');
+    $('#coverage > #' + insurance_coverage).css('opacity', '0.3');
+    insurance_coverage = $(this).attr('id');
+    $('#coverage > #' + insurance_coverage).css('opacity', '1');
+
+    secondary_color = 'line3';
+    handleFile('scripts/' + insurance_plan + insurance_coverage + promo_codes + '.json', secondary_color);
 })
 
 
 $('#codes > .button').on('click', function() {
-  $('#codes > #' + promo_codes).css('opacity', '0.3');
-  promo_codes = $(this).attr('id');
-  $('#codes > #' + promo_codes).css('opacity', '1');
-  handleFile('scripts/' + insurance_plan + insurance_coverage + promo_codes + '.json', 'line4');
+    $('#codes > #' + promo_codes).css('opacity', '0.3');
+    promo_codes = $(this).attr('id');
+    $('#codes > #' + promo_codes).css('opacity', '1');
+
+    secondary_color = 'line4'
+    handleFile('scripts/' + insurance_plan + insurance_coverage + promo_codes + '.json', secondary_color);
 })
 
 
+var rangeSlider = function() {
+    var slider = $('.range-slider'),
+        range = $('.range-slider__range'),
+        value = $('.range-slider__value');
 
+    slider.each(function() {
 
+        value.each(function() {
+            var value = $(this).prev().attr('value');
+            $(this).html(value);
+        });
+
+        range.on('input', function() {
+            $(this).next(value).html(this.value);
+
+            setTick(this.value);
+        });
+    });
+};
+
+rangeSlider();
+
+function setTick(val) {
+    ticks = parseInt(val);
+
+    d3.selectAll("#line").remove();
+    // d3.selectAll("#xAxis").remove();
+    d3.selectAll(".axis").remove();
+
+    d3.queue()
+        .defer(d3.json, 'scripts/AllAllAll.json')
+        .await(jsonHandler);
+
+    handleFile('scripts/' + insurance_plan + insurance_coverage + promo_codes + '.json', secondary_color);
+}
