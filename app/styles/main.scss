@@ -1,10 +1,9 @@
 // bower:scss
 // endbower
 $stroke: 4px;
-
 // colors
-$dark:  #333030;
-$ocean:  #2b90d9;
+$dark: #333030;
+$ocean: #2b90d9;
 $grass: #3ac569;
 $snow: #FFFFFF;
 $salmon: #F32C52;
@@ -15,105 +14,112 @@ $lime: #64DD17;
 $slate: #9E9E9E;
 $sky: #57e6d9;
 $regular: #edeeee;
-
-
 // font import
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,700,500);
-
 // font
-$font-face: 'Roboto', sans-serif;
-
+$font-face: 'Roboto',
+sans-serif;
 .header {
-  text-align: center;
-  margin: 0;
-  padding: 0;
-  position: relative;
-  top: 70px;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    top: 70px;
+    font-weight: normal;
 }
+
+.text {
+  text-align: right;
+}
+
 .title {
-  border-bottom: 3px solid black;
-  padding: 5px;
-  transition: background-color 0.5s;
-  &:hover {
-    background-color: #1b1e25;
-    border-bottom: 3px solid white;
-    color: white;
-  }
+    border-bottom: 3px solid black;
+    padding: 5px;
+    transition: background-color 0.5s;
+    &:hover {
+        background-color: #1b1e25;
+        border-bottom: 3px solid white;
+        color: white;
+    }
 }
+
 // reset
 html {
-  box-sizing: border-box;
-  background-color: #f5f5f5;
-  font-family: $font-face;
-  -webkit-font-smoothing: antialiased;
+    box-sizing: border-box;
+    background-color: #f5f5f5;
+    font-family: $font-face;
+    -webkit-font-smoothing: antialiased;
 }
 
-*, *:before, *:after {
-  box-sizing: inherit;
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
 }
 
 svg {
-  display: block;
-  margin: auto;
+    display: block;
+    margin: auto;
 }
 
 .axis path,
 .axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
 }
 
 .x.axis path {
-  display: none;
+    display: none;
 }
 
 .line {
-  fill: none;
-  stroke: #0099FF;
-  // stroke-width: $stroke;
+    fill: none;
+    stroke: #0099FF;
+    // stroke-width: $stroke;
 }
 
 .line2 {
-  fill: none;
-  stroke: #FFC107;
-  // stroke-width: $stroke;
+    fill: none;
+    stroke: #FFC107;
+    // stroke-width: $stroke;
 }
 
 .line3 {
-  fill: none;
-  stroke: #4CAF50;
-  // stroke-width: $stroke;
+    fill: none;
+    stroke: #4CAF50;
+    // stroke-width: $stroke;
 }
 
 .line4 {
-  fill: none;
-  stroke: #E91E63;
-  // stroke-width: $stroke;
+    fill: none;
+    stroke: #f00;
+    // stroke-width: $stroke;
 }
 
 .overlay {
-  fill: none;
-  pointer-events: all;
+    fill: none;
+    pointer-events: all;
 }
 
 div.tooltip {
-  position: absolute;
-  text-align: center;
-  line-height: 1;
-  padding: 7px 12px;
-  font: 10px sans-serif;
-  background: rgba(0, 0, 0, 0.8);
-  font-weight: bold;
-  color: #fff;
-  border: 5px rgba(0, 0, 0, 0.8) black;
-  border-radius: 2px;
-  pointer-events: none;
+    position: absolute;
+    text-align: center;
+    line-height: 1;
+    padding: 7px 12px;
+    font: 10px sans-serif;
+    background: rgba(0, 0, 0, 0.8);
+    font-weight: bold;
+    color: #fff;
+    border: 5px rgba(0, 0, 0, 0.8) black;
+    border-radius: 2px;
+    pointer-events: none;
 }
 
 .hi {
-  color: #4FC3F7;
+    color: #4FC3F7;
 }
+
 // .d3-tip {
 //   position: absolute;
 //   line-height: 1;
@@ -122,291 +128,268 @@ div.tooltip {
 // }
 
 /* Creates a small triangle extender for the tooltip */
-.tooltip:after {
-  box-sizing: border-box;
-  display: inline;
-  font-size: 15px;
-  width: 100%;
-  line-height: 1;
-  color: rgba(0, 0, 0, 0.8);
-  content: "\25BC";
-  position: absolute;
-  text-align: center;
 
-  margin: -1px 0 0 0;
-  top: 100%;
-  left: 0;
+.tooltip:after {
+    box-sizing: border-box;
+    display: inline;
+    font-size: 15px;
+    width: 100%;
+    line-height: 1;
+    color: rgba(0, 0, 0, 0.8);
+    content: "\25BC";
+    position: absolute;
+    text-align: center;
+    margin: -1px 0 0 0;
+    top: 100%;
+    left: 0;
 }
 
+
 /* Style northward tooltips differently */
+
 .tooltip.n:after {
-  margin: -1px 0 0 0;
-  top: 100%;
-  left: 0;
+    margin: -1px 0 0 0;
+    top: 100%;
+    left: 0;
 }
 
 .main {
-  height: 90vh;
+    height: 90vh;
 }
 
 .container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .rows {
-  display: flex;
-  flex-flow: column nowrap;
+    display: flex;
+    flex-flow: column nowrap;
+    flex: 1;
+}
+.cols {
+    display: flex;
+    flex-flow: row nowrap;
+    flex: 1;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 40px;
 }
 
 .wrap {
-  flex-flow: row wrap;
+    flex-flow: row wrap;
 }
-
 
 .button-container {
-  flex: 1;
-  display: flex;
-
-  margin: 60px auto;
-  padding: 20px;
-
-  flex-flow: column wrap;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
+    flex: 1;
+    display: flex;
+    margin: 60px auto;
+    padding: 20px;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
 }
-
-
-
 
 // button styles
 .button {
-  display: flex;
-  overflow: hidden;
-
-  margin: 5px;
-
-  cursor: pointer;
-  user-select: none;
-  transition: all 60ms ease-in-out;
-  text-align: center;
-  white-space: nowrap;
-  text-decoration: none !important;
-  text-transform: none;
-  text-transform: capitalize;
-
-  color: #fff;
-  border: 0 none;
-  border-radius: 4px;
-
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 1.3;
- 
-  justify-content: center;
-  align-items: center;
-  flex: 1 0 100px;
-  height: 45px;
-
-  &:hover {
-    transition: all 60ms ease;
-
-    opacity: .85;
-  }
-  
-  &:active {
-    transition: all 60ms ease;
-    opacity: .75;
-  }
-  
-  &:focus {
-    outline: 1px dotted #959595;
-    outline-offset: -4px;
-  }
+    display: flex;
+    overflow: hidden;
+    margin: 5px;
+    cursor: pointer;
+    user-select: none;
+    transition: all 60ms ease-in-out;
+    text-align: center;
+    white-space: nowrap;
+    text-decoration: none !important;
+    text-transform: none;
+    text-transform: capitalize;
+    color: #fff;
+    border: 0 none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.3;
+    justify-content: center;
+    align-items: center;
+    flex: 1 0 100px;
+    height: 45px;
+    &:hover {
+        transition: all 60ms ease;
+        opacity: .85;
+    }
+    &:active {
+        transition: all 60ms ease;
+        opacity: .75;
+    }
+    &:focus {
+        outline: 1px dotted #959595;
+        outline-offset: -4px;
+    }
 }
 
 .button.-regular {
-  color: #202129;
-  background-color: #edeeee;
-  &:hover {
     color: #202129;
-    background-color: #e1e2e2;
-    opacity: 1;
-  }
-  
-  &:active {
-    background-color: #d5d6d6;
-    opacity: 1;
-  }
+    background-color: #edeeee;
+    &:hover {
+        color: #202129;
+        background-color: #e1e2e2;
+        opacity: 1;
+    }
+    &:active {
+        background-color: #d5d6d6;
+        opacity: 1;
+    }
 }
 
 .button.-dark {
-  color: $snow;
-  background: $dark;
-  opacity: 0.3;
-  
-   &:focus {
-    outline: 1px dotted white;
-    outline-offset: -4px;
-  }
+    color: $snow;
+    background: $dark;
+    opacity: 0.3;
+    &:focus {
+        outline: 1px dotted white;
+        outline-offset: -4px;
+    }
 }
-  
+
 .button.-green {
-  color: $snow;
-  background: $grass;
+    color: $snow;
+    background: $grass;
 }
 
 .button.-blue {
-  color: $snow;
-  background: $ocean;
-  opacity: 0.3;
+    color: $snow;
+    background: $ocean;
+    opacity: 0.3;
 }
 
 .button.-salmon {
-  color: $snow;
-  background: $salmon;
-  opacity: 0.3;
+    color: $snow;
+    background: $salmon;
+    opacity: 0.3;
 }
 
 .button.-sun {
-  color: #f15c5c;
-  background: $sun;
+    color: #f15c5c;
+    background: $sun;
 }
 
 .button.-flower {
-  color: #F5f5f5;
-  background: $flower;
+    color: #F5f5f5;
+    background: $flower;
 }
 
 .button.-brown {
-  opacity: 0.3;
-  color: #f5f5f5;
-  background: $brown;
+    opacity: 0.3;
+    color: #f5f5f5;
+    background: $brown;
 }
 
 .button.-lime {
-  color: #f5f5f5;
-  background: $lime;
-  opacity: 0.3;
+    color: #f5f5f5;
+    background: $lime;
+    opacity: 0.3;
 }
 
 .button.-slate {
-  color: #f5f5f5;
-  background: $slate;
-  opacity: 0.3;
+    color: #f5f5f5;
+    background: $slate;
+    opacity: 0.3;
 }
 
 .button.-sky {
-  color: #f5f5f5;
-  background: $sky;
-  opacity: 0.3;
+    color: #f5f5f5;
+    background: $sky;
+    opacity: 0.3;
 }
-
 
 // Base Colors
 $shade-10: #2c3e50 !default;
 $shade-1: #d7dcdf !default;
 $shade-0: #fff !default;
 $teal: #1abc9c !default;
-
-
-
 // Range Slider
 $range-width: 80% !default;
-
 $range-handle-color: $dark !default;
 $range-handle-color-hover: $teal !default;
 $range-handle-size: 20px !default;
-
 $range-track-color: $shade-1 !default;
 $range-track-height: 10px !default;
-
 $range-label-color: $dark !default;
 $range-label-width: 60px !default;
-
 .range-slider {
-  width: $range-width;
-  display: block;
-  margin: 30px auto;
+    width: $range-width;
+    display: block;
+    margin: 30px auto;
 }
 
 .range-slider__range {
-  -webkit-appearance: none;
-  width: calc(100% - (#{$range-label-width + 13px}));
-  height: $range-track-height;
-  border-radius: 5px;
-  background: $range-track-color;
-  outline: none;
-  padding: 0;
-  margin: 0;
-
-  // Range Handle
-  &::-webkit-slider-thumb {
-    appearance: none;
-    width: $range-handle-size;
-    height: $range-handle-size;
-    border-radius: 50%;
-    background: $range-handle-color;
-    cursor: pointer;
-    transition: background .15s ease-in-out;
-
-    &:hover {
-      background: $range-handle-color-hover;
+    -webkit-appearance: none;
+    width: calc(100% - (#{$range-label-width + 13px}));
+    height: $range-track-height;
+    border-radius: 5px;
+    background: $range-track-color;
+    outline: none;
+    padding: 0;
+    margin: 0;
+    // Range Handle
+    &::-webkit-slider-thumb {
+        appearance: none;
+        width: $range-handle-size;
+        height: $range-handle-size;
+        border-radius: 50%;
+        background: $range-handle-color;
+        cursor: pointer;
+        transition: background .15s ease-in-out;
+        &:hover {
+            background: $range-handle-color-hover;
+        }
     }
-  }
-
-  &:active::-webkit-slider-thumb {
-    background: $range-handle-color-hover;
-  }
-
-  &::-moz-range-thumb {
-    width: $range-handle-size;
-    height: $range-handle-size;
-    border: 0;
-    border-radius: 50%;
-    background: $range-handle-color;
-    cursor: pointer;
-    transition: background .15s ease-in-out;
-
-    &:hover {
-      background: $range-handle-color-hover;
+    &:active::-webkit-slider-thumb {
+        background: $range-handle-color-hover;
     }
-  }
-
-  &:active::-moz-range-thumb {
-    background: $range-handle-color-hover;
-  }
+    &::-moz-range-thumb {
+        width: $range-handle-size;
+        height: $range-handle-size;
+        border: 0;
+        border-radius: 50%;
+        background: $range-handle-color;
+        cursor: pointer;
+        transition: background .15s ease-in-out;
+        &:hover {
+            background: $range-handle-color-hover;
+        }
+    }
+    &:active::-moz-range-thumb {
+        background: $range-handle-color-hover;
+    }
 }
-
 
 // Range Label
 .range-slider__value {
-  display: inline-block;
-  position: relative;
-  width: $range-label-width;
-  color: $shade-0;
-  line-height: 20px;
-  text-align: center;
-  border-radius: 3px;
-  background: $range-label-color;
-  padding: 5px 10px;
-  margin-left: 8px;
-
-  &:after {
-    position: absolute;
-    top: 8px;
-    left: -7px;
-    width: 0;
-    height: 0;
-    border-top: 7px solid transparent;
-    border-right: 7px solid $range-label-color;
-    border-bottom: 7px solid transparent;
-    content: '';
-  }
+    display: inline-block;
+    position: relative;
+    width: $range-label-width;
+    color: $shade-0;
+    line-height: 20px;
+    text-align: center;
+    border-radius: 3px;
+    background: $range-label-color;
+    padding: 5px 10px;
+    margin-left: 8px;
+    &:after {
+        position: absolute;
+        top: 8px;
+        left: -7px;
+        width: 0;
+        height: 0;
+        border-top: 7px solid transparent;
+        border-right: 7px solid $range-label-color;
+        border-bottom: 7px solid transparent;
+        content: '';
+    }
 }
-
 
 // Firefox Overrides
 ::-moz-range-track {
@@ -415,7 +398,46 @@ $range-label-width: 60px !default;
 }
 
 input::-moz-focus-inner,
-input::-moz-focus-outer { 
-  border: 0; 
+input::-moz-focus-outer {
+    border: 0;
 }
 
+
+.wrapper {
+    width: 100%;
+    padding: 100px 0;
+    display: flex;
+    box-sizing: border-box;
+
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+.bar {
+    background: white;
+    width: 100%;
+    max-width: 0;
+    height: 40px;
+    margin: 0 0 10px 0;
+}
+
+.num {
+    line-height: 40px;
+    color: #1A414A;
+    padding: 0 10px;
+    text-align: right;
+}
+
+@media screen and (min-width: 768px) {
+    .wrapper {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+}
+
+.bar_title {
+  position: relative;
+  left: -50px;
+}

@@ -77,7 +77,8 @@ function jsonHandler(error, data) {
 
     x = d3.scaleTime()
         .range([0, width])
-        .domain(d3.extent(data, function(d) { return d; }));
+        .domain(d3.extent(data, function(d) {
+            return d; }));
 
     var bins = d3.histogram()
         .domain(x.domain())
@@ -100,8 +101,8 @@ function jsonHandler(error, data) {
     y = d3.scaleLinear()
         .range([height, 0])
         .domain([0, d3.max(lineData, function(d) {
-            return d.count; 
-          })]);
+            return d.count;
+        })]);
 
     var line = d3.line()
         .x(function(d) {
@@ -120,9 +121,8 @@ function jsonHandler(error, data) {
 
     if (ticks > 180) {
         d3.select("#line").style('stroke-width', '2');
-    }
-    else {
-      d3.select("#line").style('stroke-width', '3');
+    } else {
+        d3.select("#line").style('stroke-width', '3');
     }
 
 
@@ -172,14 +172,14 @@ function jsonHandler(error, data) {
             .style("stroke-dasharray", ("3, 5"))
             .style("stroke", "#989898")
             .style("fill", "none")
-        
+
 
         svg.append("text")
             .attr("class", "divider_label")
             .style("font-size", 12)
             // .style("letter-spacing", 1)
             // .style("font-weight", 500)
-            .attr("transform", "translate("+ x(parseTime(date[0]).getTime()) +", "+i +"), rotate(-35)")
+            .attr("transform", "translate(" + x(parseTime(date[0]).getTime()) + ", " + i + "), rotate(-35)")
             .text(date[1]);
 
         i += 5;
@@ -225,7 +225,7 @@ function handleFile(filename, lineName) {
             (data);
 
         var lineData = bins.filter(function(bin) {
-          return bin.length > 0;
+            return bin.length > 0;
         }).map(function(bin) {
             return {
                 count: bin.length,
@@ -256,15 +256,14 @@ function handleFile(filename, lineName) {
 
         if (ticks > 180) {
             d3.selectAll("#test").style('stroke-width', '2');
+        } else {
+            d3.selectAll("#test").style('stroke-width', '3');
         }
-        else {
-          d3.selectAll("#test").style('stroke-width', '3');
-        }
-        
+
         if (lines.length >= 3) {
-          var i = lines.shift();
-          console.log(i);
-          i.remove();
+            var i = lines.shift();
+            console.log(i);
+            i.remove();
         }
         lines.push(select);
 
@@ -339,3 +338,30 @@ function setTick(val) {
 
     handleFile('scripts/' + insurance_plan + insurance_coverage + promo_codes + '.json', secondary_color);
 }
+
+window.requestAnimationFrame = window.requestAnimationFrame || 
+                               window.mozRequestAnimationFrame || 
+                               window.webkitRequestAnimationFrame || 
+                               window.msRequestAnimationFrame;
+
+function grow() {
+    var i = 1;
+    $('.bar').each(function(index, value) {
+        var percent = $(this).attr('data-percent');
+        var timing = percent / 150;
+        setTimeout(function() {
+
+            $(value).css('max-width', +percent + '%').css('transition', timing + 's ease all');
+            $(value).append('<div class="num">' + percent + '%</div>');
+
+        }, i * 50);
+
+        i++;
+    });
+}
+
+
+
+$(document).ready(function() {
+    requestAnimationFrame(grow);
+});
