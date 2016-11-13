@@ -1,11 +1,79 @@
-<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-<html><head>
-<title>503 Service Temporarily Unavailable</title>
-</head><body>
-<h1>Service Temporarily Unavailable</h1>
-<p>The server is temporarily unable to service your
-request due to maintenance downtime or capacity
-problems. Please try again later.</p>
-<hr>
-<address>Apache/2.2.12 (Ubuntu) Server at v3v10.vitechinc.com Port 443</address>
-</body></html>
+{
+  "responseHeader":{
+    "zkConnected":true,
+    "status":0,
+    "QTime":2,
+    "params":{
+      "q":"*:*",
+      "indent":"on",
+      "wt":"json"}},
+  "response":{"numFound":7,"start":0,"docs":[
+      {
+        "targeted_counts":"1000000",
+        "activity_type":"Mail Flyers",
+        "id":"1",
+        "activity_date":"2016-01-01T00:00:00Z",
+        "campaign_initiative":"Accident Policy now available",
+        "comments":"Let the current policy members know that Acme is offering Accident Coverage also",
+        "collection_id":"activities",
+        "_version_":1549301740328714240},
+      {
+        "targeted_counts":"1000000",
+        "activity_type":"Email",
+        "id":"2",
+        "activity_date":"2016-01-15T00:00:00Z",
+        "campaign_initiative":"New Product Offering Splash",
+        "comments":"Let the current policy members know that Acme is offering Accident Coverage also",
+        "collection_id":"activities",
+        "_version_":1549301740335005696},
+      {
+        "targeted_counts":"1123000",
+        "activity_type":"Email",
+        "id":"3",
+        "promocodes":"ACCOFF10",
+        "activity_date":"2016-02-25T00:00:00Z",
+        "campaign_initiative":"10% Discount on Premiums",
+        "comments":"New Enrollees will get 10% Discount on Accident Coverage if they are also enrolled in Dental",
+        "collection_id":"activities",
+        "_version_":1549301740335005697},
+      {
+        "targeted_counts":"60000",
+        "activity_type":"Call",
+        "id":"4",
+        "promocodes":"ACCOFF10",
+        "activity_date":"2016-02-29T00:00:00Z",
+        "campaign_initiative":"10% Discount on Premiums",
+        "comments":"New Enrollees will get 10% Discount on Accident Coverage if they are also enrolled in Dental",
+        "collection_id":"activities",
+        "_version_":1549301740335005698},
+      {
+        "targeted_counts":"1190500",
+        "activity_type":"Email",
+        "id":"5",
+        "promocodes":"FREESPOUSE",
+        "activity_date":"2016-06-01T00:00:00Z",
+        "campaign_initiative":"Free spouse coverage for 1 year",
+        "comments":"New Enrollees will get free accident coverage for Spouse for one year if they are also enrolled in Dental",
+        "collection_id":"activities",
+        "_version_":1549301740335005699},
+      {
+        "targeted_counts":"150000",
+        "activity_type":"Call",
+        "id":"6",
+        "promocodes":"FREESPOUSE",
+        "activity_date":"2016-06-15T00:00:00Z",
+        "campaign_initiative":"Free spouse coverage for 1 year",
+        "comments":"New Enrollees will get free accident coverage for Spouse for one year if they are also enrolled in Dental",
+        "collection_id":"activities",
+        "_version_":1549301740336054272},
+      {
+        "targeted_counts":"200000",
+        "activity_type":"Mail Flyers",
+        "id":"7",
+        "promocodes":"FINCON",
+        "activity_date":"2016-06-30T00:00:00Z",
+        "campaign_initiative":"Free Financial Consulting",
+        "comments":"New Enrollees will get free financial consulting",
+        "collection_id":"activities",
+        "_version_":1549301740336054273}]
+  }}
