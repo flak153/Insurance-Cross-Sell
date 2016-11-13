@@ -47,7 +47,8 @@ var focus = svg.append("g")
     .style("display", "none");
 
 focus.append("circle")
-    .attr("r", 4.5);
+    .attr("r", 4.5)
+    .style("z-index", "100");
 
 d3.queue()
     .defer(d3.json, 'scripts/AllAllAll.json')
@@ -108,19 +109,19 @@ function jsonHandler(error, data, Premium) {
         .attr("class", "overlay")
         .attr("width", width)
         .attr("height", height)
-        // .on("mouseover", function() {
-        //     focus.style("display", null);
-        //     div.transition()
-        //         .duration(200)
-        //         .style("opacity", .9);
-        // })
-        // .on("mouseout", function() {
-        //     focus.style("display", "none");
-        //     div.transition()
-        //         .duration(500)
-        //         .style("opacity", 0);
-        // })
-        // .on("mousemove", mousemove);
+        .on("mouseover", function() {
+            focus.style("display", null);
+            div.transition()
+                .duration(200)
+                .style("opacity", .9);
+        })
+        .on("mouseout", function() {
+            focus.style("display", "none");
+            div.transition()
+                .duration(500)
+                .style("opacity", 0);
+        })
+        .on("mousemove", mousemove);
 
       var i = 0;
       activities.forEach(function(date) {
