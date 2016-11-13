@@ -23,6 +23,13 @@ $regular: #edeeee;
 // font
 $font-face: 'Roboto', sans-serif;
 
+.header {
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  top: 70px;
+}
 .title {
   border-bottom: 3px solid black;
   padding: 5px;
@@ -64,25 +71,25 @@ svg {
 .line {
   fill: none;
   stroke: #0099FF;
-  stroke-width: $stroke;
+  // stroke-width: $stroke;
 }
 
 .line2 {
   fill: none;
   stroke: #FFC107;
-  stroke-width: $stroke;
+  // stroke-width: $stroke;
 }
 
 .line3 {
   fill: none;
   stroke: #4CAF50;
-  stroke-width: $stroke;
+  // stroke-width: $stroke;
 }
 
 .line4 {
   fill: none;
   stroke: #E91E63;
-  stroke-width: $stroke;
+  // stroke-width: $stroke;
 }
 
 .overlay {

@@ -1,5 +1,5 @@
 // var accidents = require('./accidents.json');
-var margin = { top: 100, right: 50, bottom: 30, left: 50 },
+var margin = { top: 100, right: 50, bottom: 80, left: 50 },
     width = 980 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
@@ -11,11 +11,15 @@ var activities = [
     ["2016-02-25T00:00:00Z", ""],
     ["2016-02-29T00:00:00Z", "10% Discount on Premiums"],
     ["2016-06-01T00:00:00Z", "Free Spouse Coverage for 1 year"],
-    ["2016-06-15T00:00:00Z", "Free Spouse Coverage for 1 year"],
+    ["2016-06-15T00:00:00Z", ""],
     ["2016-06-30T00:00:00Z", "Free Financial Consulting"]
 ];
 
+var colors = ['line', 'line2', 'line3', 'line4'];
+
 var x, y;
+
+var lines = [];
 
 
 var svg = d3.select("svg")
@@ -29,6 +33,21 @@ var parseTime = d3.timeParse("%Y-%m-%dT%H:%M:%SZ"),
     bisectDate = d3.bisector(function(d) {
         return d.time;
     }).left;
+
+svg.append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("y", 0 - margin.left)
+    .attr("x", 0 - (height / 2))
+    .attr("dy", "1em")
+    .style("text-anchor", "middle")
+    .text("Accident Policy Sales");
+
+svg.append("text")
+    .attr("transform",
+        "translate(" + (width / 2) + " ," +
+        (height + margin.top - 40) + ")")
+    .style("text-anchor", "middle")
+    .text("Date");
 
 
 var div = d3.select("body").append("div")
@@ -106,20 +125,7 @@ function jsonHandler(error, data) {
       d3.select("#line").style('stroke-width', '3');
     }
 
-    // if (!initial) {
-    //     return;
-    // }
 
-    // initial = false;
-
-    // text label for the y axis
-    svg.append("text")
-        .attr("transform", "rotate(-90)")
-        .attr("y", 0 - margin.left)
-        .attr("x", 0 - (height / 2))
-        .attr("dy", "1em")
-        .style("text-anchor", "middle")
-        .text("Accident Policy Sales");
 
     svg.append("g")
         .attr("class", "axis axis--y")
@@ -129,13 +135,6 @@ function jsonHandler(error, data) {
         .attr("y", 6)
         .attr("dy", "0.71em")
         .attr("id", "yAxis");
-
-    svg.append("text")
-        .attr("transform",
-            "translate(" + (width / 2) + " ," +
-            (height + margin.top - 40) + ")")
-        .style("text-anchor", "middle")
-        .text("Date");
 
     svg.append("g")
         .attr("class", "axis axis--x")
@@ -147,19 +146,19 @@ function jsonHandler(error, data) {
         .attr("class", "overlay")
         .attr("width", width)
         .attr("height", height)
-        .on("mouseover", function() {
-            focus.style("display", null);
-            div.transition()
-                .duration(200)
-                .style("opacity", .9);
-        })
-        .on("mouseout", function() {
-            focus.style("display", "none");
-            div.transition()
-                .duration(500)
-                .style("opacity", 0);
-        })
-        .on("mousemove", mousemove);
+        // .on("mouseover", function() {
+        //     focus.style("display", null);
+        //     div.transition()
+        //         .duration(200)
+        //         .style("opacity", .9);
+        // })
+        // .on("mouseout", function() {
+        //     focus.style("display", "none");
+        //     div.transition()
+        //         .duration(500)
+        //         .style("opacity", 0);
+        // })
+        // .on("mousemove", mousemove);
 
     var i = 0;
     activities.forEach(function(date) {
@@ -169,7 +168,7 @@ function jsonHandler(error, data) {
             .attr("y1", 0)
             .attr("x2", x(parseTime(date[0]).getTime()))
             .attr("y2", height)
-            .style("stroke-width", 1)
+            .style("stroke-width", 2)
             .style("stroke-dasharray", ("3, 5"))
             .style("stroke", "#989898")
             .style("fill", "none")
@@ -206,7 +205,7 @@ function jsonHandler(error, data) {
 
 
 function handleFile(filename, lineName) {
-    d3.select("#test").remove();
+    // d3.select("#test").remove();
 
     if ((insurance_plan + insurance_coverage + promo_codes) === 'AllAllAll')
         return;
@@ -247,18 +246,27 @@ function handleFile(filename, lineName) {
                 return y(d.count);
             });
 
-        svg.append("path")
+
+
+        var select = svg.append("path")
             .datum(lineData)
             .attr("class", lineName)
             .attr("d", line)
             .attr("id", "test");
 
         if (ticks > 180) {
-            d3.select("#test").style('stroke-width', '2');
+            d3.selectAll("#test").style('stroke-width', '2');
         }
         else {
-          d3.select("#test").style('stroke-width', '3');
+          d3.selectAll("#test").style('stroke-width', '3');
         }
+        
+        if (lines.length >= 3) {
+          var i = lines.shift();
+          console.log(i);
+          i.remove();
+        }
+        lines.push(select);
 
     })
 
@@ -268,15 +276,13 @@ function handleFile(filename, lineName) {
 var insurance_plan = "All";
 var insurance_coverage = "All";
 var promo_codes = "All";
-var secondary_color = 'line2';
 
 $('#plan > .button').on('click', function(e) {
     $('#plan > #' + insurance_plan).css('opacity', '0.3');
     insurance_plan = $(this).attr('id');
     $('#plan > #' + insurance_plan).css('opacity', '1');
 
-    secondary_color = 'line2';
-    handleFile('scripts/' + insurance_plan + insurance_coverage + promo_codes + '.json', secondary_color);
+    handleFile('scripts/' + insurance_plan + insurance_coverage + promo_codes + '.json', colors[Math.floor(4 * Math.random())]);
 })
 
 $('#coverage > .button').on('click', function() {
@@ -284,8 +290,7 @@ $('#coverage > .button').on('click', function() {
     insurance_coverage = $(this).attr('id');
     $('#coverage > #' + insurance_coverage).css('opacity', '1');
 
-    secondary_color = 'line3';
-    handleFile('scripts/' + insurance_plan + insurance_coverage + promo_codes + '.json', secondary_color);
+    handleFile('scripts/' + insurance_plan + insurance_coverage + promo_codes + '.json', colors[Math.floor(4 * Math.random())]);
 })
 
 
@@ -294,8 +299,7 @@ $('#codes > .button').on('click', function() {
     promo_codes = $(this).attr('id');
     $('#codes > #' + promo_codes).css('opacity', '1');
 
-    secondary_color = 'line4'
-    handleFile('scripts/' + insurance_plan + insurance_coverage + promo_codes + '.json', secondary_color);
+    handleFile('scripts/' + insurance_plan + insurance_coverage + promo_codes + '.json', colors[Math.floor(4 * Math.random())]);
 })
 
 
@@ -325,9 +329,10 @@ function setTick(val) {
     ticks = parseInt(val);
 
     d3.selectAll("#line").remove();
-    // d3.selectAll("#xAxis").remove();
+    d3.selectAll(".divided").remove();
+    d3.selectAll(".divider_label").remove();
     d3.selectAll(".axis").remove();
-
+    d3.selectAll("#test").remove();
     d3.queue()
         .defer(d3.json, 'scripts/AllAllAll.json')
         .await(jsonHandler);
